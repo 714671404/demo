@@ -3,7 +3,7 @@
         <!-- prev -->
         <li
                 :class="['paging-item', 'paging-item--prev', {'paging-item--disabled' : index === 1}]"
-                @click="prev" :title="mess">prev</li>
+                @click="prev">prev</li>
 
         <!-- first -->
         <li
@@ -39,10 +39,6 @@
         name : 'MoPaging',
         //通过props来接受从父组件传递过来的值
         props : {
-
-            mess : {
-                default: 0
-            },
 
             //页面中的可见页码，其他的以...替代, 必须是奇数
             perPages : {

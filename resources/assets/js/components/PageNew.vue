@@ -1,18 +1,65 @@
 <template>
-    <page :mess="mess"></page>
+    <div class="list">
+        <template v-if="count">
+            <ul>
+                <li v-for="item in items">{{ item }}</li>
+            </ul>
+            <mo-paging
+                    :page-index="currentPage"
+                    :totla="count"
+                    :page-size="pageSize"
+                    @change="pageChange">
+            </mo-paging>
+        </template>
+    </div>
 </template>
-
 <script>
     import Page from './Page'
     export default {
-        components: {
+        //显示的声明组件
+        components : {
             Page
         },
         data () {
             return {
-                mess: '111'
+                pageSize : 20 , //每页显示20条数据
+                currentPage : 1, //当前页码
+                count : 0, //总记录数
+                items : []
             }
         },
+        methods : {
+            //获取数据
+            getList () {
+                //模拟
+                // let url = `/api/list/?pageSize=${this.pageSize}&currentPage=${this.currentPage}`
+                // this.$http.get(url)
+                //     .then(({body}) => {
+                //
+                //         //子组件监听到count变化会自动更新DOM
+                //         this.count = body.count
+                //         this.items = body.list
+                //     })
+                axios.get('/article', {
+                    page: 2,
+                    _token: window.Laravel.csrfToken
+                })
+                    .then(function (data) {
+                        // this.count = data.count
+                        // this.items = data.data.list
+                        console.log(data.data.list)
+                    })
+            },
 
+            //从page组件传递过来的当前page
+            pageChange (page) {
+                this.currentPage = page
+                this.getList()
+            }
+        },
+        mounted() {
+            //请求第一页数据
+            this.getList()
+        }
     }
 </script>

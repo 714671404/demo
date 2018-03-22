@@ -8,6 +8,12 @@ class Article extends Model
 {
     protected $fillable = [
         'id',
-        'article'
+        'title',
+        'content',
+        'user_id'
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 }

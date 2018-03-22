@@ -18,3 +18,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/article', function (\Illuminate\Http\Request $request) {
+    $article = \App\Article::all()->forPage($request->page, 10);
+    $data = [];
+    $d = [];
+    foreach ($article as $key => $value) {
+        $data[$key]['title'] = $value->title;
+    }
+    $d['list'] = $data;
+    return $d;
+//    dd($article[0]->title);
+});
